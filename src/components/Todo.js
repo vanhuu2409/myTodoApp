@@ -7,7 +7,7 @@ const Todo = ({id, name, category, completed}) => {
     const [isComplete, setIsComplete] = useState(completed);
     const dispatch = useDispatch();
 
-    const handleOnChangeTodo = (e) => {
+    const handleOnClickChangeTodo = (e) => {
         setIsComplete(!isComplete);
     };
     useEffect(() => {
@@ -25,7 +25,7 @@ const Todo = ({id, name, category, completed}) => {
     };
     return (
         <div className='flex'>
-            <div onClick={handleOnChangeTodo}
+            <div onClick={handleOnClickChangeTodo}
                  className='flex flex-1 gap-4 items-center hover:opacity-85 cursor-pointer'>
                 <input
                     type='checkbox'
