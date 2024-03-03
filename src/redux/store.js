@@ -1,17 +1,16 @@
-import {createStore} from "redux";
-import {rootReducer} from "./reducer";
-import {persistStore, persistReducer} from 'redux-persist'
-import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
-
+import { createStore } from "redux";
+import { rootReducer } from "./reducer";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 
 const persistConfig = {
-    key: 'root',
-    storage,
-}
+  key: "root",
+  storage,
+};
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-let store = createStore(persistedReducer)
-let persistor = persistStore(store)
+let store = createStore(persistedReducer);
+let persistor = persistStore(store);
 
-export {store, persistor}
+export { store, persistor };

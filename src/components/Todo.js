@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {RiDeleteBin6Line} from "react-icons/ri";
 import {useDispatch} from "react-redux";
 import {onChangeStatusTodo, removeTodo} from "../redux/actions";
@@ -7,11 +7,10 @@ const Todo = ({id, name, category, completed}) => {
     const [isComplete, setIsComplete] = useState(completed);
     const dispatch = useDispatch();
 
-    const handleOnClickChangeTodo = (e) => {
+    const handleOnClickChangeTodo = () => {
         setIsComplete(!isComplete);
     };
     useEffect(() => {
-        console.log({id, name, category, completed: isComplete})
         dispatch(onChangeStatusTodo({id, name, category, completed: isComplete}))
     }, [isComplete]);
 
@@ -20,7 +19,7 @@ const Todo = ({id, name, category, completed}) => {
             `Are you sure you want to delete this todo?`
         );
         if (onClickDelete) {
-            dispatch(removeTodo(e));
+            dispatch(removeTodo(e.currentTarget?.dataset.id));
         }
     };
     return (
@@ -29,7 +28,9 @@ const Todo = ({id, name, category, completed}) => {
                  className='flex flex-1 gap-4 items-center hover:opacity-85 cursor-pointer'>
                 <input
                     type='checkbox'
+                    // defaultChecked={completed}
                     checked={isComplete}
+                    onChange={handleOnClickChangeTodo}
                     className='w-6 h-6 border-[#EA5959] rounded cursor-pointer accent-[#EA5959]'
                 />
                 <label
