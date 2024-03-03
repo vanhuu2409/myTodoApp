@@ -1,18 +1,13 @@
-import {useEffect, useState} from "react";
 import {RiDeleteBin6Line} from "react-icons/ri";
 import {useDispatch} from "react-redux";
-import {onChangeStatusTodo, removeTodo} from "../redux/actions";
+import {changeStatus, removeTodo} from "../redux/actions";
+import {useState} from "react";
 
-const Todo = ({id, name, category, completed}) => {
-    const [isComplete, setIsComplete] = useState(completed);
+const Todo = (props) => {
+    const {id, name, category, completed} = props
+    console.log(props)
+    const [checked, setChecked] = useState(completed)
     const dispatch = useDispatch();
-
-    const handleOnClickChangeTodo = () => {
-        setIsComplete(!isComplete);
-    };
-    useEffect(() => {
-        dispatch(onChangeStatusTodo({id, name, category, completed: isComplete}))
-    }, [isComplete]);
 
     const handleDeleteTodo = (e) => {
         let onClickDelete = window.confirm(
@@ -22,18 +17,25 @@ const Todo = ({id, name, category, completed}) => {
             dispatch(removeTodo(e.currentTarget?.dataset.id));
         }
     };
+
+    const handleOnClickChangeTodo = (e) =>{
+        setChecked(!checked)
+        dispatch(changeStatus(id))
+    }
+
     return (
         <div className='flex'>
-            <div onClick={handleOnClickChangeTodo}
+            <div
                  className='flex flex-1 gap-4 items-center hover:opacity-85 cursor-pointer'>
                 <input
                     type='checkbox'
-                    // defaultChecked={completed}
-                    checked={isComplete}
+                    id={id}
+                    checked={checked}
                     onChange={handleOnClickChangeTodo}
                     className='w-6 h-6 border-[#EA5959] rounded cursor-pointer accent-[#EA5959]'
                 />
                 <label
+                    htmlFor={id}
                     className='relative text-[18px] cursor-pointer text-[#5A5A5A] font-["Lato"] leading-[21.6px]'
                 >
                     {name}
@@ -41,7 +43,7 @@ const Todo = ({id, name, category, completed}) => {
                         className='min-w-[90px] cursor-pointer py-[4px] px-3 ml-2 font-thin font-["Lato"] text-[12px] leading-[14.4px] h-[14px] rounded-md bg-[#EA5959] text-white text-center'>
             {category}
           </span>
-                    {isComplete && (
+                    {checked && (
                         <div className='absolute left-0 top-1/2 w-full h-[1px] bg-[#5A5A5A]'></div>
                     )}
                 </label>

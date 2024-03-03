@@ -4,15 +4,22 @@ export const addTodo = (newTodo) => {
     payload: newTodo,
   };
 };
-export const onChangeStatusTodo = (elementInfo) => {
-  return {
-    type: "todoList/onChangeStatusTodo",
-    payload: elementInfo,
-  };
-};
+
 export const removeTodo = (element) => {
   return {
     type: "todoList/removeTodo",
     payload: element,
+  };
+};
+export const changeStatus = (id) => {
+  return {
+    type: "todoList/changeStatus",
+    payload: id,
+  };
+};
+export const filterCategoryTodo = (category) => {
+  return {
+    type: "filter/filterCategoryTodo",
+    payload: category,
   };
 };
