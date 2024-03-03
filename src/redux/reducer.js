@@ -1,4 +1,7 @@
 const initState = {
+  filter: {
+    category: 'All'
+  },
   todoList: [
     {
       id: 1,
@@ -32,27 +35,32 @@ export const rootReducer = (state = initState, action) => {
   switch (action.type) {
     case "todoList/addTodo": {
       return {
+        ...state,
         todoList: [...state.todoList, action.payload],
       };
     }
     case "todoList/removeTodo": {
       return {
-        todoList: state.todoList.filter((todo) => todo.id != action.payload),
+        ...state,
+        todoList: state.todoList.filter((todo) => (todo.id !== (action.payload))),
       };
-    }
-    case "todoList/onChangeStatusTodo": {
+    }case "todoList/changeStatus": {
       return {
-        todoList: state.todoList.map((todo) => {
-          return todo === action.payload
-            ? {
-                ...action.payload,
-                completed: !action.payload.completed,
-              }
-            : todo;
-        }),
+        ...state,
+        todoList: state.todoList.map((todo) => todo.id === action.payload ? {
+          ...todo,
+          completed: !todo.completed
+        } : todo),
       };
     }
-    // isSelected === 'All' ? "Uncategoriezed" : isSelected
+    case 'filter/filterCategoryTodo': {
+      return {
+        ...state,
+        filter: {
+          category: action.payload
+        }
+      }
+    }
     default:
       return state;
   }
