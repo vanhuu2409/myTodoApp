@@ -5,16 +5,23 @@ export const addTodo = (newTodo) => {
   };
 };
 
-export const removeTodo = (element) => {
+export const removeTodo = (id) => {
   return {
     type: "todoList/removeTodo",
-    payload: element,
+    payload: id,
   };
 };
 export const changeStatus = (id) => {
   return {
     type: "todoList/changeStatus",
     payload: id,
+  };
+};
+
+export const changeTodoName = (id, newName) => {
+  return {
+    type: "todoList/changeTodoName",
+    payload: { id, newName },
   };
 };
 export const filterCategoryTodo = (category) => {

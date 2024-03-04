@@ -1,18 +1,18 @@
-import { useState} from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {addTodo} from "../redux/actions";
+import { addTodo } from "../../../redux/actions";
 import Todo from "./Todo";
 import { v4 as uuidv4 } from "uuid";
 import Nav from "./Nav";
 import {
   selectedCategorySelector,
-  todoRemainingSelector
-} from "../redux/selectors";
+  todoRemainingSelector,
+} from "../../../redux/selectors";
 
 function Page() {
   const dispatch = useDispatch();
-  const todoList = useSelector(todoRemainingSelector);
-  const selectedCategory = useSelector(selectedCategorySelector)
+  const todoList = useSelector(todoRemainingSelector || []);
+  const selectedCategory = useSelector(selectedCategorySelector);
   const [todoName, setTodoName] = useState("");
   const handleOnChangeTodo = (e) => {
     setTodoName(e.target.value);
@@ -24,7 +24,10 @@ function Page() {
         const newTodo = {
           id: uuidv4(),
           name: todoName,
-          category: selectedCategory.category === "All" ? "Uncategoriezed" : selectedCategory.category,
+          category:
+            selectedCategory.category === "All"
+              ? "Uncategoriezed"
+              : selectedCategory.category,
           completed: false,
         };
         dispatch(addTodo(newTodo));
@@ -38,7 +41,7 @@ function Page() {
     <div className='bg-[#EA5959] w-full h-screen relative flex justify-center items-center'>
       <div className='w-[983px] h-[702px] flex z-20 bg-white rounded-lg drop-shadow-lg'>
         <article className='max-w-[200px] w-full h-full pt-20 flex justify-center border-r border-[#D8D8D8]'>
-          <Nav/>
+          <Nav />
         </article>
         <main className='flex gap-6 flex-col flex-1 mx-12 mt-8'>
           <h1 className="font-['Lato'] font-bold text-[31px] leading-[37.2px]">
