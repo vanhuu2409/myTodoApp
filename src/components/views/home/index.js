@@ -24,6 +24,7 @@ function Page() {
   const handleOnAddTodo = (e) => {
     if (todoName) {
       setTodoName("");
+      setNewCategory("Uncategoriezed");
       const newTodo = {
         id: uuidv4(),
         name: todoName,
@@ -31,6 +32,7 @@ function Page() {
         completed: false,
       };
       dispatch(addTodo(newTodo));
+      setTimeout(() => alert("Add Todo successfully"));
     } else {
       alert("Please enter todo name");
     }
