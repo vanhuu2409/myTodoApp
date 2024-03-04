@@ -24,6 +24,14 @@ export const changeTodoName = (id, newName) => {
     payload: { id, newName },
   };
 };
+
+export const changeCategory = (id, newCategory) => {
+  return {
+    type: "todoList/changeCategory",
+    payload: { id, newCategory },
+  };
+};
+
 export const filterCategoryTodo = (category) => {
   return {
     type: "filter/filterCategoryTodo",

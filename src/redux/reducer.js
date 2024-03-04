@@ -45,6 +45,19 @@ export const rootReducer = (state = initState, action) => {
         ),
       };
     }
+    case "todoList/changeCategory": {
+      return {
+        ...state,
+        todoList: state.todoList.map((todo) =>
+          todo.id === action.payload.id
+            ? {
+                ...todo,
+                category: action.payload.newCategory,
+              }
+            : todo
+        ),
+      };
+    }
     case "filter/filterCategoryTodo": {
       return {
         ...state,
