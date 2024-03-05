@@ -13,24 +13,21 @@ function Page() {
   const dispatch = useDispatch();
   const todoList = useSelector(todoRemainingSelector || []);
   const selectedCategory = useSelector(selectedCategorySelector);
+  const isSlelectedCategory = useSelector((state) => state.filter.category);
   const [todoName, setTodoName] = useState("");
-  const [newCategory, setNewCategory] = useState("Uncategoriezed");
   const handleOnChangeTodo = (e) => {
     setTodoName(e.target.value);
-  };
-  const handleOnChangeCategory = (e) => {
-    setNewCategory(e.target.value);
   };
   const handleOnAddTodo = (e) => {
     if (todoName) {
       setTodoName("");
-      setNewCategory("Uncategoriezed");
       const newTodo = {
         id: uuidv4(),
         name: todoName,
-        category: newCategory,
+        category: isSlelectedCategory,
         completed: false,
       };
+      console.log(newTodo);
       dispatch(addTodo(newTodo));
       setTimeout(() => alert("Add Todo successfully"));
     } else {
@@ -39,16 +36,16 @@ function Page() {
   };
 
   return (
-    <div className='bg-[#EA5959] w-full relative h-screen flex justify-center items-center'>
+    <div className='bg-[#EA5959] w-full relative h-screen flex justify-center items-center overflow-hidden visible'>
       <div className='max-w-[983px] w-full relative h-[702px] flex z-20 bg-white rounded-lg drop-shadow-lg'>
         <article className='max-w-[180px] w-full h-full pt-20 flex justify-center'>
-          <Nav />
+          <Nav newCategory />
         </article>
         <main className='flex gap-6 flex-col flex-1 mx-12 my-8 border-l pl-8 divide-2 divide-[#D8D8D8]'>
           <h1 className="font-['Lato'] -ml-4 font-bold text-[31px] leading-[37.2px]">
             Add Tasks
           </h1>
-          <div className='flex items-center gap-4 hover:opacity-85 cursor-pointer'>
+          <div className='flex justify-center items-center gap-4 hover:opacity-85 cursor-pointer'>
             <input
               type='text'
               value={todoName}
@@ -58,10 +55,10 @@ function Page() {
               placeholder={`Add a new task inside ‘${selectedCategory.category}’ category`}
             />
             <select
-              onChange={handleOnChangeCategory}
-              value={newCategory}
+              disabled
+              value={isSlelectedCategory}
               onKeyDown={(e) => (e.code === "Enter" ? handleOnAddTodo() : "")}
-              className='block px-2 py-[5px] w-1/3 text-gray-500 bg-transparent appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer h-full border rounded-lg cursor-pointer accent-[#EA5959]'
+              className='block px-2 w-1/3 text-gray-500 bg-transparent appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer h-full border rounded-lg cursor-default'
             >
               <option value='Uncategoriezed'>Uncategoriezed</option>
               <option value='Groceries'>Groceries</option>
@@ -71,13 +68,13 @@ function Page() {
             <button
               type='button'
               onClick={handleOnAddTodo}
-              className='text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800'
+              className='text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800'
             >
               ADD
             </button>
           </div>
           {/* List TODO */}
-          <div className='flex flex-col gap-3 overflow-scroll'>
+          <div className='relative flex overflow-scroll visible flex-col gap-3'>
             {/* List TODO */}
             {/* list item */}
             {todoList.map((todo, index) => {

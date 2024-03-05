@@ -8,6 +8,7 @@ const initState = {
 export const rootReducer = (state = initState, action) => {
   switch (action.type) {
     case "todoList/addTodo": {
+      console.log(action.payload);
       return {
         ...state,
         todoList: [action.payload, ...state.todoList],

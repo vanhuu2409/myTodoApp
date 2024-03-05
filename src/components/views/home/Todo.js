@@ -10,13 +10,13 @@ import {
 } from "../../../redux/actions";
 import { useState } from "react";
 
-const Todo = (props) => {
-  const { id, name, category, completed } = props;
+const Todo = (todoInfo) => {
+  const { id, name, category, completed } = todoInfo;
+
   const dispatch = useDispatch();
 
   const [isChangeTodoName, setIsChangeTodoName] = useState(false);
   const [newCategory, setNewCategory] = useState(category);
-  const [isAlert, setIsAlert] = useState(false);
 
   const handleDeleteTodo = (e) => {
     let onClickDelete = window.confirm(
@@ -24,8 +24,7 @@ const Todo = (props) => {
     );
     if (onClickDelete) {
       dispatch(removeTodo(id));
-      setTimeout(() => setIsAlert(!isAlert), 200);
-      setTimeout(() => setIsAlert(false), 1500);
+      alert("Successfully removed");
     }
   };
 
@@ -33,11 +32,12 @@ const Todo = (props) => {
     dispatch(changeStatus(id));
   };
 
-  const handleToggleChangeTodoName = () => {
+  const handleToggleEditTodo = () => {
     setIsChangeTodoName(!isChangeTodoName);
     if (isChangeTodoName) {
-      let timeId = setTimeout(() => alert("Successfully changed"), 300);
-      return clearTimeout(timeId);
+      alert("Successfully changed");
+      dispatch(changeCategory(id, newCategory));
+      setIsChangeTodoName(!isChangeTodoName);
     }
   };
 
@@ -60,32 +60,6 @@ const Todo = (props) => {
 
   return (
     <div className='flex relative items-center group'>
-      {/* Toast */}
-      <div
-        id='toast-success'
-        className={
-          isAlert
-            ? "flex items-center w-full absolute top-0 right-0 transition-all z-50 max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
-            : "flex items-center w-full absolute top-0 right-0 translate-x-[250%] transition-all z-50 max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
-        }
-        role='alert'
-      >
-        <div className='inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200'>
-          <svg
-            className='w-5 h-5'
-            aria-hidden='true'
-            xmlns='http://www.w3.org/2000/svg'
-            fill='currentColor'
-            viewBox='0 0 20 20'
-          >
-            <path d='M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z' />
-          </svg>
-          <span className='sr-only'>Check icon</span>
-        </div>
-        <div className='ms-3 text-sm font-normal'>
-          Remove item successfully.
-        </div>
-      </div>
       <div className='flex flex-1 gap-4 items-center hover:opacity-85 cursor-pointer'>
         <input
           type='checkbox'
@@ -112,7 +86,7 @@ const Todo = (props) => {
         ) : (
           <>
             <input
-              // type='text'
+              type='text'
               onChange={handleChangeTodoName}
               onKeyDown={handleKeyPress}
               value={name}
@@ -135,21 +109,16 @@ const Todo = (props) => {
 
       {/* DeleteBTN */}
       <div className='flex opacity-0 group-hover:opacity-100'>
-        {isChangeTodoName ? (
-          <button
-            className='hover:opacity-80 cursor-pointer flex justify-center items-center z-20 w-10 h-10'
-            onClick={handleToggleChangeTodoName}
-          >
+        <button
+          className='hover:opacity-80 cursor-pointer flex justify-center items-center z-20 w-10 h-10'
+          onClick={handleToggleEditTodo}
+        >
+          {isChangeTodoName ? (
             <FiCheckSquare className='text-xl z-0 text-info-emphasis mx-2' />
-          </button>
-        ) : (
-          <button
-            className='hover:opacity-80 cursor-pointer flex justify-center items-center z-20 w-10 h-10'
-            onClick={handleToggleChangeTodoName}
-          >
+          ) : (
             <HiOutlinePencilAlt className='text-xl z-0 text-info-emphasis mx-2' />
-          </button>
-        )}
+          )}
+        </button>
         <button
           className='hover:opacity-80 cursor-pointer flex justify-center items-center z-20 w-10 h-10'
           onClick={handleDeleteTodo}
