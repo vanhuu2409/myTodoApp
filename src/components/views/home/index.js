@@ -11,7 +11,6 @@ function Page() {
   const todoList = useSelector((state) => state.todoList.todoList) || [];
   const categorySelected = useSelector((state) => state.filter.filter);
   const todosData = todoList.filter((todo) => {
-    console.log(todo);
     if (categorySelected === "All") return true;
     return todo.category === categorySelected;
   });
