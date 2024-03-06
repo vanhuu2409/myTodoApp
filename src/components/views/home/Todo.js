@@ -73,7 +73,7 @@ const Todo = ({ id, name, category, completed }) => {
             >
               {name}
               <span className='min-w-[90px] cursor-pointer py-[4px] px-3 ml-2 font-thin font-["Lato"] text-[12px] leading-[14.4px] h-[14px] rounded-md bg-[#EA5959] text-white text-center'>
-                {category}
+                {category === "All" ? "Uncategoriezed" : category}
               </span>
               {completed && (
                 <div className='absolute left-0 top-1/2 w-full h-[1px] bg-[#5A5A5A]'></div>
