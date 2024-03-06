@@ -1,14 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const counterSlice = createSlice({
+const todoSlice = createSlice({
   name: "todoList",
   initialState: {
     todoList: [],
   },
   reducers: {
     addTodo: (state, action) => {
-      console.log(state);
-      state.todoList.shift(action.payload);
+      state.todoList = [action.payload, ...state.todoList];
     },
     removeTodo: (state, action) => {
       state.todoList = state.todoList.filter(
@@ -29,6 +28,7 @@ const counterSlice = createSlice({
       );
       if (currentTodo) {
         currentTodo.name = action.payload.newName;
+        console.log(currentTodo);
       }
     },
     changeCategory: (state, action) => {
@@ -48,5 +48,5 @@ export const {
   changeStatus,
   changeTodoName,
   changeCategory,
-} = counterSlice.actions;
-export default counterSlice.reducer;
+} = todoSlice.actions;
+export default todoSlice.reducer;

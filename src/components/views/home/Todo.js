@@ -15,7 +15,6 @@ const Todo = ({ id, name, category, completed }) => {
 
   const [isChangeTodoName, setIsChangeTodoName] = useState(false);
   const [newCategory, setNewCategory] = useState(category);
-
   const handleDeleteTodo = (e) => {
     let onClickDelete = window.confirm(
       `Are you sure you want to delete this todo?`
@@ -34,20 +33,20 @@ const Todo = ({ id, name, category, completed }) => {
     setIsChangeTodoName(!isChangeTodoName);
     if (isChangeTodoName) {
       alert("Successfully changed");
-      dispatch(changeCategory(id, newCategory));
+      dispatch(changeCategory({ id, newCategory }));
       setIsChangeTodoName(!isChangeTodoName);
     }
   };
 
   const handleChangeTodoName = (e) => {
     const newName = e.target.value;
-    dispatch(changeTodoName(id, newName));
+    dispatch(changeTodoName({ id, newName }));
   };
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       setIsChangeTodoName(!isChangeTodoName);
-      dispatch(changeCategory(id, newCategory));
+      dispatch(changeCategory({ id, newCategory }));
       setTimeout(() => alert("Change category successfully"));
     }
   };
@@ -87,7 +86,7 @@ const Todo = ({ id, name, category, completed }) => {
               type='text'
               onChange={handleChangeTodoName}
               onKeyDown={handleKeyPress}
-              value={name}
+              // value={name}
               className='w-full h-full p-2 border rounded cursor-text accent-[#EA5959]'
             />
             <select
