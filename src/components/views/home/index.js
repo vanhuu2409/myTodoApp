@@ -8,7 +8,7 @@ import { addTodo } from "./reducerSlice/todoSlice";
 
 function Page() {
   const dispatch = useDispatch();
-  const todoList = useSelector((state) => state.todoList.todoList);
+  const todoList = useSelector((state) => state.todoList.todoList) || [];
   const categorySelected = useSelector((state) => state.filter.filter);
   const todosData = todoList.filter((todo) => {
     console.log(todo);
