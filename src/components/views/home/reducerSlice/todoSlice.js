@@ -7,7 +7,7 @@ const todoSlice = createSlice({
   },
   reducers: {
     addTodo: (state, action) => {
-      state.todoList = [action.payload, ...state.todoList];
+      state.todoList.unshift(action.payload);
     },
     removeTodo: (state, action) => {
       state.todoList = state.todoList.filter(
