@@ -2,17 +2,15 @@ import { FiCheckSquare } from "react-icons/fi";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
 import {
   changeCategory,
   changeStatus,
   changeTodoName,
   removeTodo,
-} from "../../../redux/actions";
-import { useState } from "react";
+} from "./reducerSlice/todoSlice";
 
-const Todo = (todoInfo) => {
-  const { id, name, category, completed } = todoInfo;
-
+const Todo = ({ id, name, category, completed }) => {
   const dispatch = useDispatch();
 
   const [isChangeTodoName, setIsChangeTodoName] = useState(false);
