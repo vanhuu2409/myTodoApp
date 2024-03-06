@@ -7,8 +7,7 @@ const todoSlice = createSlice({
   },
   reducers: {
     addTodo: (state, action) => {
-      console.log(state.todoList);
-      state.todoList = [action.payload, ...state.todoList];
+      state.todoList = state.todoList.concat(action.payload);
     },
     removeTodo: (state, action) => {
       state.todoList = state.todoList.filter(
