@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo } from "../../../redux/actions";
 import Todo from "./Todo";
 import { v4 as uuidv4 } from "uuid";
 import Nav from "./Nav";
@@ -9,11 +8,13 @@ import {
   todoRemainingSelector,
 } from "../../../redux/selectors";
 
+import { addTodo } from "./reducerSlice/todoSlice";
+
 function Page() {
   const dispatch = useDispatch();
   const todoList = useSelector(todoRemainingSelector || []);
   const selectedCategory = useSelector(selectedCategorySelector);
-  const isSlelectedCategory = useSelector((state) => state.filter.category);
+  const isSlelectedCategory = useSelector((state) => state.filter);
   const [todoName, setTodoName] = useState("");
   const handleOnChangeTodo = (e) => {
     setTodoName(e.target.value);
@@ -77,9 +78,9 @@ function Page() {
           <div className='relative flex overflow-scroll visible flex-col gap-3'>
             {/* List TODO */}
             {/* list item */}
-            {todoList.map((todo, index) => {
-              return <Todo key={index + 1} {...todo} />;
-            })}
+            {todoList.map((todo, index) => (
+              <Todo key={index} {...todo} />
+            ))}
           </div>
         </main>
       </div>

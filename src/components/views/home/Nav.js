@@ -1,6 +1,6 @@
 import NavItem from "./NavItem";
-import { filterCategoryTodo } from "../../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { filterCategoryTodo } from "./reducerSlice/filterSlice";
 const Nav = () => {
   const navList = ["All", "Groceries", "College", "Payments"];
   const isSlelectedCategory = useSelector((state) => state.filter.category);
