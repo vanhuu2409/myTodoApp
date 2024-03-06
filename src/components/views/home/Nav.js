@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { filterCategoryTodo } from "./reducerSlice/filterSlice";
 const Nav = () => {
   const navList = ["All", "Groceries", "College", "Payments"];
-  const isSlelectedCategory = useSelector((state) => state.filter.category);
+  const isSlelectedCategory = useSelector((state) => state.filter.filter);
   const dispatch = useDispatch();
   const handleOnClickNav = (e) => {
     const categorySelected = e.target.innerText;

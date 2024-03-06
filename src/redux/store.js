@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
   persistStore,
   persistReducer,
@@ -10,14 +10,21 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
-import reducer from "./reducer";
+import filterSlice from "../components/views/home/reducerSlice/filterSlice";
+import todoSlice from "../components/views/home/reducerSlice/todoSlice";
 
 const persistConfig = {
   key: "root",
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, reducer);
+const persistedReducer = persistReducer(
+  persistConfig,
+  combineReducers({
+    filter: filterSlice,
+    todoList: todoSlice,
+  })
+);
 
 let store = configureStore({
   reducer: persistedReducer,

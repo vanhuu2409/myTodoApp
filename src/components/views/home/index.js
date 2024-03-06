@@ -3,18 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import Todo from "./Todo";
 import { v4 as uuidv4 } from "uuid";
 import Nav from "./Nav";
-import {
-  selectedCategorySelector,
-  todoRemainingSelector,
-} from "../../../redux/selectors";
 
 import { addTodo } from "./reducerSlice/todoSlice";
 
 function Page() {
   const dispatch = useDispatch();
-  const todoList = useSelector(todoRemainingSelector || []);
-  const selectedCategory = useSelector(selectedCategorySelector);
-  const isSlelectedCategory = useSelector((state) => state.filter);
+  const todoList = useSelector((state) => state.todoList.todoList);
+  const categorySelected = useSelector((state) => state.filter.filter);
+  const todosData = todoList.filter((todo) => {
+    if (categorySelected === "All") return true;
+    return todo.category === categorySelected;
+  });
+
   const [todoName, setTodoName] = useState("");
   const handleOnChangeTodo = (e) => {
     setTodoName(e.target.value);
@@ -25,7 +25,7 @@ function Page() {
       const newTodo = {
         id: uuidv4(),
         name: todoName,
-        category: isSlelectedCategory,
+        category: categorySelected,
         completed: false,
       };
       console.log(newTodo);
@@ -53,15 +53,15 @@ function Page() {
               onChange={handleOnChangeTodo}
               onKeyDown={(e) => (e.code === "Enter" ? handleOnAddTodo() : "")}
               className='bg-gray-50 flex-1 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-              placeholder={`Add a new task inside ‘${selectedCategory.category}’ category`}
+              placeholder={`Add a new task inside ‘${categorySelected}’ category`}
             />
             <select
               disabled
-              value={isSlelectedCategory}
+              value={categorySelected}
               onKeyDown={(e) => (e.code === "Enter" ? handleOnAddTodo() : "")}
               className='block px-2 w-1/3 text-gray-500 bg-transparent appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer h-full border rounded-lg cursor-default'
             >
-              <option value='Uncategoriezed'>Uncategoriezed</option>
+              <option value='All'>Uncategoriezed</option>
               <option value='Groceries'>Groceries</option>
               <option value='College'>College</option>
               <option value='Payments'>Payments</option>
@@ -78,7 +78,7 @@ function Page() {
           <div className='relative flex overflow-scroll visible flex-col gap-3'>
             {/* List TODO */}
             {/* list item */}
-            {todoList.map((todo, index) => (
+            {todosData.map((todo, index) => (
               <Todo key={index} {...todo} />
             ))}
           </div>
