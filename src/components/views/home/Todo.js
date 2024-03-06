@@ -86,7 +86,7 @@ const Todo = ({ id, name, category, completed }) => {
               type='text'
               onChange={handleChangeTodoName}
               onKeyDown={handleKeyPress}
-              // value={name}
+              value={name}
               className='w-full h-full p-2 border rounded cursor-text accent-[#EA5959]'
             />
             <select
